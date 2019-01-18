@@ -1,0 +1,295 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    /*The box-sizing property is used to tell the browser what the sizing properties (width and height) should include border-box.*/
+    box-sizing: border-box;
+    /*reset Chrome user agent styles*/
+    -webkit-margin-before: 0px;
+    -webkit-margin-after: 0px;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-before: 0px;
+    -webkit-padding-after: 0px;
+    -webkit-padding-start: 0px;
+    -webkit-padding-end: 0px;
+    /*reset Firefox user agent styles*/
+    -moz-margin-before: 0px;
+    -moz-margin-after: 0px;
+    -moz-margin-start: 0px;
+    -moz-margin-end: 0px;
+    -moz-padding-before: 0px;
+    -moz-padding-after: 0px;
+    -moz-padding-start: 0px;
+    -moz-padding-end: 0px;
+    /*reset Internet Explorer user agent styles*/
+    -ms-margin-before: 0px;
+    -ms-margin-after: 0px;
+    -ms-margin-start: 0px;
+    -ms-margin-end: 0px;
+    -ms-padding-before: 0px;
+    -ms-padding-after: 0px;
+    -ms-padding-start: 0px;
+    -ms-padding-end: 0px;
+    /*reset Opera user agent styles*/
+    -o-margin-before: 0px;
+    -o-margin-after: 0px;
+    -o-margin-start: 0px;
+    -o-margin-end: 0px;
+    -o-padding-before: 0px;
+    -o-padding-after: 0px;
+    -o-padding-start: 0px;
+    -o-padding-end: 0px;
+}
+
+
+/* -------------------------------------
+General styles (General Module, wrapping around the modules below)
+(the styles used everywhere in the page (like the Body) or styles which are used in more than 2 of the modules below (h2, h3, h4, h5, h6, p, a, ul, li))
+*/
+
+body {
+    text-align: center;
+
+}
+
+nav {
+    background-color: white;
+    opacity: 0.8;
+    padding-bottom: 30px;
+    margin-bottom: 0%;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    width: 50%;
+
+}
+
+fieldset {
+    display: block;
+    width: 90%;
+    margin: 1rem auto;
+    padding: 0.3rem;
+}
+
+input {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #eee;
+    color: black;
+    border: 1px solid black;
+
+}
+
+button {
+    background: -webkit-linear-gradient(top, #DD4B39, #C53727);
+    background: -moz-linear-gradient(top, #DD4B39, #C53727);
+    background: -ms-linear-gradient(top, #DD4B39, #C53727);
+    background: -webkit-linear-gradient(top, #D74736, #AD2719);
+    background: -moz-linear-gradient(top, #D74736, #AD2719);
+    background: -ms-linear-gradient(top, #D74736, #AD2719);
+    display: block;
+    margin: 0.5rem auto;
+    padding: 0.5rem;
+    color: white;
+
+}
+
+
+
+
+/* -------------------------------------
+Header styles (Main Module)
+(all the styles inside the < header > or < nav > tags)
+*/
+
+#project-logo {
+    width: 70%;
+    margin-top: 5%;
+}
+
+#favoritesButton {
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+
+}
+
+
+#signInPageWrapper {
+    background-image: url(images/heather-schwartz-493944-unsplash.jpg);
+    background-position: center center;
+    background-size: cover;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 70px;
+    padding-top: 30px;
+}
+
+#signInButton {
+    background-color: #FFAA36;
+    color: white;
+    border: 1px solid black;
+    margin-bottom: 10px;
+
+}
+
+.sign-in-form,
+.signUpForm {
+    /*    border: 3px solid red;*/
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    opacity: .8;
+    width: 30%;
+    margin-top: 100px;
+    padding: 20px;
+}
+
+
+.searchForm {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.search-input-wrapper {
+    width: 79%;
+    display: inline-block;
+}
+
+#searchInput {
+    width: 100%;
+    display: block;
+    margin: 0;
+    border: 1px solid black;
+    border-radius: 4px;
+
+
+}
+
+#searchButton {
+    display: inline-block;
+    width: 20%;
+    margin: 0;
+}
+
+#search-page-quote {
+    font-size: 35px;
+    font-weight: normal;
+    font-family: 'Lora', serif;
+    text-shadow: 0 1px 0 black;
+    margin-bottom: 15%;
+}
+
+.result-items {
+    display: block;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid red;
+    margin-bottom: 10px;
+    margin-top: 10px;
+
+}
+
+h3 {
+    margin-top: 50px;
+
+
+}
+
+.result-item-image,
+.result-item-description {
+    display: inline-block;
+    width: 50%;
+    max-width: 300px;
+    vertical-align: top;
+    margin-left: 30px;
+
+}
+
+.result-item-image img {
+    width: 100%;
+    margin-top: px;
+    border: 1px solid black;
+
+}
+
+.result-item-description {
+    padding-top: 15px;
+    padding-left: 30px;
+    text-align: left;
+    height: 400px;
+    overflow-y: auto;
+}
+
+#savedRecipes {
+    background: white;
+    opacity: .8;
+    padding: 10px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+
+}
+
+.list-Of-Recipes {
+    margin-top: 15px;
+    margin-left: 1%;
+    display: block;
+}
+
+.list-Of-Recipes a {
+    color: black;
+    text-decoration: none;
+}
+
+.list-Of-Recipes a:hover {
+    color: blue;
+    text-decoration: underline;
+
+}
+
+.favoriteListColumn {
+    display: inline-block;
+    width: 90%;
+}
+
+.deleteFromFavoritesList {
+    width: 9%;
+}
+
+
+
+/* -------------------------------------
+Content styles (Main Module)
+(all the styles inside the < sections > or < aside > tags)
+
+/* -------------------------------------
+Footer styles (Main Module)
+(all the styles inside the < footer > tag)
+*/
+
+.social-images {
+    padding: 10px;
+    width: 60px;
+    border: none;
+}
+
+#social-media-images li {
+    display: inline-block;
+    margin-top: 10%
+}
+
+*/
+/* -------------------------------------
+place all the desktop styles above this line
+Responsive styles
+(the very last module in the CSS, contains all the media queries and it is dealing with the compatibility with mobiles and tablets)
+place all the mobile tables styles below this line
+*/

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <input type="hidden" id="loggedInUserName" value="">
+
+    <main role="main" id="signInPageWrapper">
+
+
+
+        <nav>
+            <div id="favoritesButton">
+                <button>Favorites</button>
+            </div>
+            <a href="/"><img id="project-logo" src="images/logo_transparent.png" alt="logo-image"></a>
+
+        </nav>
+
+        <form class="sign-in-form" id="signInPage">
+
+            <fieldset class="sign-in-page-user-wrapper">
+                <input id="signInPageUserName" type="text" placeholder="User Name">
+            </fieldset>
+
+            <fieldset class="sign-in-page-password-wrapper">
+                <input id="signInPagePassword" type="password" placeholder="Password">
+            </fieldset>
+            <p>Demo Login: Johnny@gmail.com Password: 123</p>
+            <button id="signInButton" type="submit">Sign In</button>
+            <p>To Register <a class="showRegister" href="#"> click here</a></p>
+
+        </form>
+
+
+        <form class="signUpForm">
+
+
+
+            <fieldset class="sign-up-page-full-wrapper">
+                <input id="signUpPageFullName" type="text" placeholder="Full Name">
+            </fieldset>
+
+
+            <fieldset class="sign-up-page-user-wrapper">
+                <input id="signUpPageUserName" type="text" placeholder="User Name">
+            </fieldset>
+
+            <fieldset class="sign-up-page-password-wrapper">
+                <input id="signUpPagePassword" type="password" placeholder="Password">
+            </fieldset>
+
+            <fieldset class="sign-up-page-confirm-password-wrapper">
+                <input id="signUpPageConfirmPassword" type="password" placeholder="Confirm Password">
+            </fieldset>
+
+
+            <button id="signUpButton" type="submit">Sign Up</button>
+            <p>To Sign In <a class="showSignIn" href="#"> click here</a></p>
+
+        </form>
+        <section id="searchPage">
+            <section id="savedRecipes">
+                <ul>
+
+                </ul>
+
+            </section>
+            <form class="searchForm">
+
+                <fieldset class="search-input-wrapper">
+                    <h2 id="search-page-quote">Search By Ingredients. Discover Amazing Recipes!</h2>
+
+                    <input id="searchInput" type="text" placeholder="Ingredients" value="Rice, Mushrooms, Broccoli">
+
+                </fieldset>
+                <button id="searchButton" type="submit">Search</button>
+
+            </form>
+
+            <!--
+<h2 id="search-page-quote">
+    Search By Ingredients. Discover Amazing Recipes!</h2>
+-->
+        </section>
+    </main>
+
+
+    <main id="searchPageWrapper">
+        <section id="resultsPage">
+            <ul class="results-page-wrapper">
+            </ul>
+
+        </section>
+    </main>
+
+
+    <footer role="footer">
+
+        <ul id="social-media-images">
+            <li><a href="mailto:patrick.keshishian@gmail.com" target="_blank">
+                <img class="social-images" id="gmailImage" src="images/if_gmail_1220367.png" alt=""></a>
+            </li>
+
+
+
+            <li><a href="https://www.linkedin.com/in/patrick-keshishian-81932068/" target="_blank">
+                <img class="social-images" id="linkedinImage" src="images/In-2C-128px-TM.png" alt=""></a>
+            </li>
+
+
+
+            <li><a href="https://github.com/PantherPat" target="_blank"> <img class="social-images" id="githubImage" src="images/Octocat.png" alt=""></a>
+            </li>
+        </ul>
+
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="client.js"></script>
+
+</body>
+
+</html>
