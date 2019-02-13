@@ -2,17 +2,23 @@
 
 const mongoose = require('mongoose');
 
-const recipeSchema = new mongoose.Schema({
-    searchInput: {
-        type: String,
-        required: false
+const videoSchema = new mongoose.Schema({
+    videoId: {
+        type: String
     },
-    loggedInUserName: {
-        type: String,
-        required: false
+    title:{
+        type:String
+    },
+    thumbnail:{
+        type: String
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
+
 });
 
-const Recipe = mongoose.model('Recipe', recipeSchema);
+const Videos = mongoose.model('Video', videoSchema);
 
-module.exports = Recipe;
+exports.Videos = Videos;

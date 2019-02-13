@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 
 
-const favoriteSchema = new mongoose.Schema({
+const savedWorkoutsSchema = new mongoose.Schema({
     label: {
         type: String,
         required: false
@@ -17,6 +17,6 @@ const favoriteSchema = new mongoose.Schema({
         required: false
     }
 });
-const Favorite = mongoose.model('Favorite', favoriteSchema);
+const savedWorkouts = mongoose.model('saved-workouts', savedWorkoutsSchema);
 
-module.exports = Favorite;
+module.exports = savedWorkouts;

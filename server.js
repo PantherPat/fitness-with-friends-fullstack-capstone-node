@@ -180,16 +180,18 @@ app.post('/users/login', function (req, res) {
     });
 });
 
-app.get('/edamam/:ingredient', function (req, res) {
+app.get('/youtube/:results', function (req, res) {
 
     request({
         method: 'GET',
-        uri: 'https://api.edamam.com/search?q=' + req.params.ingredient + '&app_id=6571a93b&app_key=fb779a44b1eb7dc5918482cf5f2f5c0f&from=0&to=15&calories=591-722&health=alcohol-free',
-        gzip: true
+        uri: 'https://www.googleapis.com/youtube/v3/videos',
+        part: "snippet",
+        maxResults: 20,
+        key: "AIzaSyCclIq-RF7zhCJ_JnoXJBLdGvz-v2nzCB0"
+    })
     }, function (error, response, body) {
         // Use external API results to save them in the database
         res.json(JSON.parse(body));
-        //        res.json(body);
     });
 
 });
@@ -197,7 +199,7 @@ app.get('/edamam/:ingredient', function (req, res) {
 // -------------entry ENDPOINTS------------------------------------------------
 // POST -----------------------------------------
 // creating a new Entry
-app.post('/favorite/create', (req, res) => {
+app.post('/saved-video/create', (req, res) => {
     let label = req.body.label;
     let url = req.body.url;
     let loggedInUserName = req.body.loggedInUserName;
