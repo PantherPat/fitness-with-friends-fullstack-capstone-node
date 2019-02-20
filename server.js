@@ -1,7 +1,7 @@
 const request = require("request");
 const User = require('./models/user');
-const Recipe = require('./models/recipe');
-const Favorite = require('./models/favorite');
+//const Recipe = require('./models/recipes');
+const Favorite = require('./models/saved-workouts');
 const bodyParser = require('body-parser');
 const config = require('./config');
 const mongoose = require('mongoose');
@@ -11,6 +11,8 @@ const passport = require('passport');
 const BasicStrategy = require('passport-http').BasicStrategy;
 const express = require('express');
 const app = express();
+const YouTube = require('simple-youtube-api');
+const youtube = new YouTube('AIzaSyCclIq-RF7zhCJ_JnoXJBLdGvz-v2nzCB0');
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static('public'));
@@ -61,12 +63,12 @@ app.post('/users/create', (req, res) => {
 
     //take the name, username and the password from the ajax api call
     let name = req.body.name;
-    let username = req.body.username;
-    let password = req.body.password;
+    let username = req.body.username
+    let password = req.body.password
 
     //exclude extra spaces from the username and password
-    username = username.trim();
-    password = password.trim();
+//     let trimmedUsername = username.trim();
+//     let trimmedPassword = password.trim();
 
     //create an encryption key
     bcrypt.genSalt(10, (err, salt) => {
@@ -118,7 +120,7 @@ app.post('/users/create', (req, res) => {
     });
 });
 
-// signing in a user
+//// signing in a user
 app.post('/users/login', function (req, res) {
 
     //take the username and the password from the ajax api call
@@ -180,25 +182,22 @@ app.post('/users/login', function (req, res) {
     });
 });
 
-app.get('/youtube/:results', function (req, res) {
-
-    request({
-        method: 'GET',
-        uri: 'https://www.googleapis.com/youtube/v3/videos',
-        part: "snippet",
-        maxResults: 20,
-        key: "AIzaSyCclIq-RF7zhCJ_JnoXJBLdGvz-v2nzCB0"
+app.get('/youtube/:keyword', function (req, res) {
+    youtube.searchVideos('Centuries', 4)
+        .then(results => {
+        res.json(results);
     })
-    }, function (error, response, body) {
-        // Use external API results to save them in the database
-        res.json(JSON.parse(body));
+        .catch(function (err){
+        res.status(500).json({
+            message: 'Err'
+        });
     });
 
 });
 
 // -------------entry ENDPOINTS------------------------------------------------
 // POST -----------------------------------------
-// creating a new Entry
+// saving video to saved workout section
 app.post('/saved-video/create', (req, res) => {
     let label = req.body.label;
     let url = req.body.url;
@@ -221,37 +220,37 @@ app.post('/saved-video/create', (req, res) => {
             }
         });
 });
-
-app.get('/favorite/get/:loggedInUserName', function (req, res) {
-
-    Favorite
-        .find({
-            loggedInUserName: req.params.loggedInUserName
-        })
-        .then(function (favoritesOutput) {
-            res.json({
-                favoritesOutput
-            });
-        })
-        .catch(function (err) {
-            console.error(err);
-            res.status(500).json({
-                message: 'Internal server error'
-            });
-        });
-});
-
-
-
-
-
-
-
-
-
+//
+//app.get('/saved-video/get/:loggedInUserName', function (req, res) {
+//
+//    Favorite
+//        .find({
+//            loggedInUserName: req.params.loggedInUserName
+//        })
+//        .then(function (favoritesOutput) {
+//            res.json({
+//                favoritesOutput
+//            });
+//        })
+//        .catch(function (err) {
+//            console.error(err);
+//            res.status(500).json({
+//                message: 'Internal server error'
+//            });
+//        });
+//});
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // DELETE ----------------------------------------
 // deleting an achievement by id
-app.delete('/favorite/delete/:id', function (req, res) {
+app.delete('/saved-video/delete/:id', function (req, res) {
     Favorite.findByIdAndRemove(req.params.id).exec().then(function (favorite) {
         return res.status(204).end();
     }).catch(function (err) {
@@ -260,7 +259,7 @@ app.delete('/favorite/delete/:id', function (req, res) {
         });
     });
 });
-
+//
 // MISC ------------------------------------------
 // catch-all endpoint if client makes request to non-existent endpoint
 app.use('*', (req, res) => {
