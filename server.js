@@ -1,7 +1,7 @@
 const request = require("request");
 const User = require('./models/user');
 //const Recipe = require('./models/recipes');
-const Favorite = require('./models/saved-workouts');
+const savedWorkout = require('./models/saved-workouts');
 const bodyParser = require('body-parser');
 const config = require('./config');
 const mongoose = require('mongoose');
@@ -198,16 +198,18 @@ app.get('/youtube/:keyword', function (req, res) {
 // -------------entry ENDPOINTS------------------------------------------------
 // POST -----------------------------------------
 // saving video to saved workout section
-app.post('/saved-video/create', (req, res) => {
-    let label = req.body.label;
-    let url = req.body.url;
-    let loggedInUserName = req.body.loggedInUserName;
+app.post('/saved-workout/create', (req, res) => {
+    let videoId = req.body.videoId;
+    let title = req.body.url;
+    let thumbnail = req.body.thumbnail;
+    let user = req.body.user;
     console.log(label, url, loggedInUserName);
 
-    Favorite.create({
-            label,
-            url,
-            loggedInUserName
+    savedVideo.create({
+        videoId,
+        title,
+        thumbnail,
+        user
         },
         (err, item) => {
             if (err) {
@@ -250,8 +252,8 @@ app.post('/saved-video/create', (req, res) => {
 //
 // DELETE ----------------------------------------
 // deleting an achievement by id
-app.delete('/saved-video/delete/:id', function (req, res) {
-    Favorite.findByIdAndRemove(req.params.id).exec().then(function (favorite) {
+app.delete('/saved-workout/delete/:id', function (req, res) {
+    savedWorkout.findByIdAndRemove(req.params.id).exec().then(function (favorite) {
         return res.status(204).end();
     }).catch(function (err) {
         return res.status(500).json({

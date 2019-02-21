@@ -4,17 +4,18 @@ const mongoose = require('mongoose');
 
 
 const savedWorkoutsSchema = new mongoose.Schema({
-    label: {
-        type: String,
-        required: false
+    videoId: {
+        type: String
     },
-    url: {
-        type: String,
-        required: false
+    title:{
+        type:String
     },
-    loggedInUserName: {
-        type: String,
-        required: false
+    thumbnail:{
+        type: String
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 });
 const savedWorkouts = mongoose.model('saved-workouts', savedWorkoutsSchema);
