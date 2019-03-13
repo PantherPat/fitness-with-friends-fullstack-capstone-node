@@ -1,7 +1,7 @@
 const request = require("request");
 const User = require('./models/user');
-//const Recipe = require('./models/recipes');
 const savedWorkout = require('./models/saved-workouts');
+const savedVideo = require('./models/saved-videos');
 const bodyParser = require('body-parser');
 const config = require('./config');
 const mongoose = require('mongoose');
@@ -62,13 +62,12 @@ function closeServer() {
 app.post('/users/create', (req, res) => {
 
     //take the name, username and the password from the ajax api call
-    let name = req.body.name;
     let username = req.body.username
     let password = req.body.password
+    let confirmPassword = req.body.confirmPassword
 
     //exclude extra spaces from the username and password
-//     let trimmedUsername = username.trim();
-//     let trimmedPassword = password.trim();
+    //how do I do this with React?
 
     //create an encryption key
     bcrypt.genSalt(10, (err, salt) => {
@@ -96,9 +95,9 @@ app.post('/users/create', (req, res) => {
 
             //using the mongoose DB schema, connect to the database and create the new user
             User.create({
-                name,
                 username,
                 password: hash,
+                confirmPassword
             }, (err, item) => {
 
                 //if creating a new user in the DB returns an error..
@@ -203,7 +202,6 @@ app.post('/saved-workout/create', (req, res) => {
     let title = req.body.url;
     let thumbnail = req.body.thumbnail;
     let user = req.body.user;
-    console.log(label, url, loggedInUserName);
 
     savedVideo.create({
         videoId,
@@ -222,25 +220,45 @@ app.post('/saved-workout/create', (req, res) => {
             }
         });
 });
+
+app.post('/time-calculator', (req, res) => {
+    let distance = req.body.distance;
+    let time = req.body.time;
+
+    savedVideo.create({
+        distance,
+        time,
+        },
+        (err, item) => {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error saving recipe to favorites'
+                });
+            }
+            if (item) {
+                return res.json(item);
+            }
+        });
+});
 //
-//app.get('/saved-video/get/:loggedInUserName', function (req, res) {
-//
-//    Favorite
-//        .find({
-//            loggedInUserName: req.params.loggedInUserName
-//        })
-//        .then(function (favoritesOutput) {
-//            res.json({
-//                favoritesOutput
-//            });
-//        })
-//        .catch(function (err) {
-//            console.error(err);
-//            res.status(500).json({
-//                message: 'Internal server error'
-//            });
-//        });
-//});
+app.get('/saved-video/get/:loggedInUserName', function (req, res) {
+
+    savedVideo
+        .find({
+            logUser: req.params.logUser
+        })
+        .then(function (youtubeVideos) {
+            res.json({
+                youtubeVideos
+            });
+        })
+        .catch(function (err) {
+            console.error(err);
+            res.status(500).json({
+                message: 'Internal server error'
+            });
+        });
+});
 //
 //
 //
@@ -253,7 +271,7 @@ app.post('/saved-workout/create', (req, res) => {
 // DELETE ----------------------------------------
 // deleting an achievement by id
 app.delete('/saved-workout/delete/:id', function (req, res) {
-    savedWorkout.findByIdAndRemove(req.params.id).exec().then(function (favorite) {
+    savedWorkout.findByIdAndRemove(req.params.id).exec().then(function (savedVideo) {
         return res.status(204).end();
     }).catch(function (err) {
         return res.status(500).json({
