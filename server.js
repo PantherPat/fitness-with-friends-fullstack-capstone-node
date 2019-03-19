@@ -1,13 +1,14 @@
 const request = require("request");
 const User = require('./models/user');
+const jwt = require('jsonwebtoken')
 const savedWorkout = require('./models/saved-workouts');
-const savedVideo = require('./models/saved-videos');
 const bodyParser = require('body-parser');
 const config = require('./config');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+const timeCalculator = require('./models/time-calculator');
 const BasicStrategy = require('passport-http').BasicStrategy;
 const express = require('express');
 const app = express();
@@ -65,6 +66,12 @@ app.post('/users/create', (req, res) => {
     let username = req.body.username
     let password = req.body.password
     let confirmPassword = req.body.confirmPassword
+    let token = jwt.sign({username}, 'my_secret_key');
+    res.json({
+        token: token
+    })
+    console.log(token);
+
 
     //exclude extra spaces from the username and password
     //how do I do this with React?
@@ -184,13 +191,13 @@ app.post('/users/login', function (req, res) {
 app.get('/youtube/:keyword', function (req, res) {
     youtube.searchVideos('Centuries', 4)
         .then(results => {
-        res.json(results);
-    })
-        .catch(function (err){
-        res.status(500).json({
-            message: 'Err'
+            res.json(results);
+        })
+        .catch(function (err) {
+            res.status(500).json({
+                message: 'Err'
+            });
         });
-    });
 
 });
 
@@ -204,10 +211,10 @@ app.post('/saved-workout/create', (req, res) => {
     let user = req.body.user;
 
     savedVideo.create({
-        videoId,
-        title,
-        thumbnail,
-        user
+            videoId,
+            title,
+            thumbnail,
+            user
         },
         (err, item) => {
             if (err) {
@@ -224,15 +231,16 @@ app.post('/saved-workout/create', (req, res) => {
 app.post('/time-calculator', (req, res) => {
     let distance = req.body.distance;
     let time = req.body.time;
-
-    savedVideo.create({
-        distance,
-        time,
+    console.log(distance, time);
+    timeCalculator.create({
+            distance,
+            time,
+            avgTime: (distance / time)
         },
         (err, item) => {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error saving recipe to favorites'
+                    message: 'Error logging runs to tracked information'
                 });
             }
             if (item) {
@@ -240,10 +248,31 @@ app.post('/time-calculator', (req, res) => {
             }
         });
 });
-//
-app.get('/saved-video/get/:loggedInUserName', function (req, res) {
 
-    savedVideo
+app.get('/time-calculator/:loggedInUserName',
+    function (req, res) {
+        console.log(req.params.loggedInUserName)
+        timeCalculator.find({
+                logUser: req.params.logUser
+            })
+            .then(function (loggedRuns) {
+                res.json({
+                    timeCalculator
+                });
+            })
+            .catch(function (err) {
+                console.error(err);
+                res.status(500).json({
+                    message: 'Internal server error'
+                });
+            });
+    });
+
+
+//
+app.get('/saved-workouts/:loggedInUserName', function (req, res) {
+    console.log(req.params.loggedInUserName)
+    savedWorkouts
         .find({
             logUser: req.params.logUser
         })
@@ -270,7 +299,7 @@ app.get('/saved-video/get/:loggedInUserName', function (req, res) {
 //
 // DELETE ----------------------------------------
 // deleting an achievement by id
-app.delete('/saved-workout/delete/:id', function (req, res) {
+app.delete('/saved-workout/:id', function (req, res) {
     savedWorkout.findByIdAndRemove(req.params.id).exec().then(function (savedVideo) {
         return res.status(204).end();
     }).catch(function (err) {
