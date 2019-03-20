@@ -1,6 +1,5 @@
 const request = require("request");
-const User = require('./models/user');
-const jwt = require('jsonwebtoken')
+//const User = require('./models/user');
 const savedWorkout = require('./models/saved-workouts');
 const bodyParser = require('body-parser');
 const config = require('./config');
@@ -14,9 +13,13 @@ const express = require('express');
 const app = express();
 const YouTube = require('simple-youtube-api');
 const youtube = new YouTube('AIzaSyCclIq-RF7zhCJ_JnoXJBLdGvz-v2nzCB0');
+
+const auth = require('./routers/auth');
+
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static('public'));
+app.use('/auth', auth);
 
 
 mongoose.Promise = global.Promise;
@@ -60,133 +63,126 @@ function closeServer() {
 // ---------------USER ENDPOINTS-------------------------------------
 // POST -----------------------------------
 // creating a new user
-app.post('/users/create', (req, res) => {
-
-    //take the name, username and the password from the ajax api call
-    let username = req.body.username
-    let password = req.body.password
-    let confirmPassword = req.body.confirmPassword
-    let token = jwt.sign({username}, 'my_secret_key');
-    res.json({
-        token: token
-    })
-    console.log(token);
-
-
-    //exclude extra spaces from the username and password
-    //how do I do this with React?
-
-    //create an encryption key
-    bcrypt.genSalt(10, (err, salt) => {
-
-        //if creating the key returns an error...
-        if (err) {
-
-            //display it
-            return res.status(500).json({
-                message: 'Encryption Key Error'
-            });
-        }
-
-        //using the encryption key above generate an encrypted pasword
-        bcrypt.hash(password, salt, (err, hash) => {
-
-            //if creating the ncrypted pasword returns an error..
-            if (err) {
-
-                //display it
-                return res.status(500).json({
-                    message: 'Encrypted Password Error'
-                });
-            }
-
-            //using the mongoose DB schema, connect to the database and create the new user
-            User.create({
-                username,
-                password: hash,
-                confirmPassword
-            }, (err, item) => {
-
-                //if creating a new user in the DB returns an error..
-                if (err) {
-                    //display it
-                    return res.status(500).json({
-                        message: 'Creating New User in DB Error'
-                    });
-                }
-                //if creating a new user in the DB is succefull
-                if (item) {
-
-                    //display the new user
-                    console.log(`User \`${username}\` created.`);
-                    return res.json(item);
-                }
-            });
-        });
-    });
-});
-
-//// signing in a user
-app.post('/users/login', function (req, res) {
-
-    //take the username and the password from the ajax api call
-    const username = req.body.username;
-    const password = req.body.password;
-    console.log(username, password);
-    //using the mongoose DB schema, connect to the database and the user with the same username as above
-    User.findOne({
-        username: username
-    }, function (err, items) {
-
-        //if the there is an error connecting to the DB
-        if (err) {
-
-            //display it
-            return res.status(500).json({
-                message: "Error connecting to the database"
-            });
-        }
-        // if there are no users with that username
-        if (!items) {
-            //display it
-            return res.status(401).json({
-                message: "Invalid Username"
-            });
-        }
-        //if the username is found
-        else {
-
-            //try to validate the password
-            items.validatePassword(password, function (err, isValid) {
-
-                //if the connection to the DB to validate the password is not working
-                if (err) {
-
-                    //display error
-                    return res.status(500).json({
-                        message: "Could not connect to the DB to validate the password"
-                    });
-
-                }
-
-                //if the password is not valid
-                if (!isValid) {
-
-                    //display error
-                    return res.status(401).json({
-                        message: "Password Invalid"
-                    });
-                }
-                //if the password is valid
-                else {
-                    //return the logged in user
-                    console.log(`User \`${username}\` logged in.`);
-                    return res.json(items);
-                }
-            });
-        };
-    });
-});
+//app.post('/users/create', (req, res) => {
+//
+//    //take the name, username and the password from the ajax api call
+//    let username = req.body.username;
+//    let password = req.body.password;
+//
+//
+//    //exclude extra spaces from the username and password
+//    //how do I do this with React?
+//
+//    //create an encryption key
+//    bcrypt.genSalt(10, (err, salt) => {
+//
+//        //if creating the key returns an error...
+//        if (err) {
+//
+//            //display it
+//            return res.status(500).json({
+//                message: 'Encryption Key Error'
+//            });
+//        }
+//
+//        //using the encryption key above generate an encrypted pasword
+//        bcrypt.hash(password, salt, (err, hash) => {
+//
+//            //if creating the ncrypted pasword returns an error..
+//            if (err) {
+//
+//                //display it
+//                return res.status(500).json({
+//                    message: 'Encrypted Password Error'
+//                });
+//            }
+//
+//            //using the mongoose DB schema, connect to the database and create the new user
+//            User.create({
+//                username,
+//                password: hash,
+//            }, (err, item) => {
+//
+//                //if creating a new user in the DB returns an error..
+//                if (err) {
+//                    //display it
+//                    return res.status(500).json({
+//                        message: 'Creating New User in DB Error'
+//                    });
+//                }
+//                //if creating a new user in the DB is succefull
+//                if (item) {
+//
+//                    //display the new user
+//                    console.log(`User \`${username}\` created.`);
+//                    return res.json(item);
+//                }
+//            });
+//        });
+//    });
+//});
+//
+////// signing in a user
+//app.post('/users/login', function (req, res) {
+//
+//    //take the username and the password from the ajax api call
+//    const username = req.body.username;
+//    const password = req.body.password;
+//    console.log(username, password);
+//    //using the mongoose DB schema, connect to the database and the user with the same username as above
+//    User.findOne({
+//        username: username
+//    }, function (err, items) {
+//
+//        //if the there is an error connecting to the DB
+//        if (err) {
+//
+//            //display it
+//            return res.status(500).json({
+//                message: "Error connecting to the database"
+//            });
+//        }
+//        // if there are no users with that username
+//        if (!items) {
+//            //display it
+//            return res.status(401).json({
+//                message: "Invalid Username"
+//            });
+//        }
+//        //if the username is found
+//        else {
+//
+//            //try to validate the password
+//            items.validatePassword(password, function (err, isValid) {
+//
+//                //if the connection to the DB to validate the password is not working
+//                if (err) {
+//
+//                    //display error
+//                    return res.status(500).json({
+//                        message: "Could not connect to the DB to validate the password"
+//                    });
+//
+//                }
+//
+//                //if the password is not valid
+//                if (!isValid) {
+//
+//                    //display error
+//                    return res.status(401).json({
+//                        message: "Password Invalid"
+//                    });
+//                }
+//                //if the password is valid
+//                else {
+//                    //return the logged in user
+//                    console.log(`User \`${username}\` logged in.`);
+//                    return res.json(items);
+//                }
+//            });
+//        };
+//    });
+//});
 
 app.get('/youtube/:keyword', function (req, res) {
     youtube.searchVideos('Centuries', 4)
