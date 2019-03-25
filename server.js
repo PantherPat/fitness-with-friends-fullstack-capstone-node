@@ -13,14 +13,18 @@ const express = require('express');
 const app = express();
 const YouTube = require('simple-youtube-api');
 const youtube = new YouTube('AIzaSyCclIq-RF7zhCJ_JnoXJBLdGvz-v2nzCB0');
-const { PORT, DATABASE_NAME } = require('./config');
+const { PORT, DATABASE_NAME, CLIENT_ORIGIN } = require('./config');
 
 const auth = require('./routers/auth');
 
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use('/auth', auth);
-//app.use(cors());
+app.use(
+    cors({
+        origin: CLIENT_ORIGIN
+    })
+);
 
 
 mongoose.Promise = global.Promise;
