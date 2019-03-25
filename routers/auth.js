@@ -36,7 +36,7 @@ router.post("/signup", (req, res) => {
         });
 });
 
-router.post("/login", function (req, res, next) {
+router.post("/login", function (req, res) {
     passport.authenticate("login", {
         session: false
     }, (err, user, info) => {
