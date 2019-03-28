@@ -33,6 +33,8 @@ router.post("/signup", (req, res) => {
                 res.statusMessage = "Username or Email already exists.";
                 return res.status(400).json(res.statusMessage);
             }
+            alert(err);
+            res.status(500).json(err)
         });
 });
 
