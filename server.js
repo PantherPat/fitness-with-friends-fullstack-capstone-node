@@ -20,11 +20,7 @@ const auth = require('./routers/auth');
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use('/auth', auth);
-app.use(
-    cors({
-        origin: CLIENT_ORIGIN
-    })
-);
+app.use(cors());
 
 
 mongoose.Promise = global.Promise;
