@@ -16,11 +16,10 @@ const youtube = new YouTube('AIzaSyCclIq-RF7zhCJ_JnoXJBLdGvz-v2nzCB0');
 const { PORT, DATABASE_NAME, CLIENT_ORIGIN } = require('./config');
 
 const auth = require('./routers/auth');
-
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use('/auth', auth);
-app.use(cors());
 
 
 mongoose.Promise = global.Promise;
