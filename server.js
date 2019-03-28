@@ -38,7 +38,6 @@ function runServer(urlToUse) {
             if (err) {
                 return reject(err);
             }
-            console.log("hello");
             server = app.listen(config.PORT, () => {
                 console.log(`Listening on localhost:${config.PORT}`);
                 resolve();
@@ -315,7 +314,7 @@ app.delete('/saved-workout/:id', function (req, res) {
 // catch-all endpoint if client makes request to non-existent endpoint
 app.use('*', (req, res) => {
     res.status(404).json({
-        message: 'Not Founddd'
+        message: 'Not Found'
     });
 });
 
