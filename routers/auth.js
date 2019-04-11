@@ -39,6 +39,7 @@ router.post("/signup", (req, res) => {
 });
 
 router.post("/login", function (req, res) {
+    // console.log(req);
     passport.authenticate("login", {
         session: false
     }, (err, user, info) => {
@@ -55,13 +56,15 @@ router.post("/login", function (req, res) {
             }
 
             const body = user.serialize();
+            console.log(body);
             // Generate jwt with the contents of user object
             const token = jwt.sign(body, JWT_SECRET);
+            console.log(token);
             return res.json({
                 token
             });
         });
-    })(req, res);
+    })
 });
 
 router.get("/userLoggedIn", function (req, res) {
