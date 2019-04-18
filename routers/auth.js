@@ -1,16 +1,14 @@
+const { User} = require("../models/user");
+const {Logged} = require("../models/userLoggedIn");
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const {
-    User
-} = require("../models/user");
-const {
-    Logged
-} = require("../models/userLoggedIn");
-const {
     JWT_SECRET
 } = require("../config");
+
+
 // require('./passport');
 // const BasicStrategy = require('passport-http').BasicStrategy;
 

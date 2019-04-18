@@ -27,12 +27,12 @@ passport.use(new JWTStrategy(opts, (jwtPayload, callback) => {
 
 // Setting up and use passport local strategy
 passport.use("login", new LocalStrategy({
-      usernameField: "email",
+      usernameField: "username",
       passwordField: "password"
     },
-    (email, password, done) => {
+    (username, password, done) => {
       return (
-        User.findOne({ email: email })
+        User.findOne({ username: username })
           // Find user unique email and verify password
           .then(user => {
             // Validate password matches with the corresponding hash
