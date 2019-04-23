@@ -225,10 +225,30 @@ app.post('/saved-workout/create', (req, res) => {
         });
 });
 
+
+app.get('/get-leaderboard-scores', function (req, res) {
+    timeCalculator
+    .find()
+    .sort('avgTime')
+        .then(function (leaderBoardScores) {
+            console.log(leaderBoardScores);
+            res.json({
+                leaderBoardScores
+            });
+        })
+        .catch(function (err) {
+            console.error(err);
+            res.status(500).json({
+                message: 'Internal server error'
+            });
+        });
+});
+
 app.post('/time-calculator', (req, res) => {
+    console.log("HELLO")
     let distance = req.body.distance;
     let time = req.body.time;
-    console.log(distance, time);
+    console.log(distance, time,"LOOK HERE");
     timeCalculator.create({
             distance,
             time,
