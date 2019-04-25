@@ -227,9 +227,14 @@ app.post('/saved-workout/create', (req, res) => {
 
 
 app.get('/get-leaderboard-scores', function (req, res) {
+    console.log("we get here")
+
+    let mySort = {avgTime: 1}
+
     timeCalculator
-    .find()
-    .sort('avgTime')
+    // .collection("avgTime")
+    .find({})
+    .sort("avgTime")
         .then(function (leaderBoardScores) {
             console.log(leaderBoardScores);
             res.json({
@@ -239,14 +244,14 @@ app.get('/get-leaderboard-scores', function (req, res) {
         .catch(function (err) {
             console.error(err);
             res.status(500).json({
-                message: 'Internal server error'
+                message: 'Data set not found'
             });
         });
 });
 
 app.post('/time-calculator', (req, res) => {
     console.log("HELLO")
-    let distance = req.body.distance;
+    let distance = req.body.distance;  
     let time = req.body.time;
     console.log(distance, time,"LOOK HERE");
     timeCalculator.create({
